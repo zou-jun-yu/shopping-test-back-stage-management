@@ -22,6 +22,7 @@ const CategoryManage = (props) => {
     confirmLoading: false,
   });
 
+  //名字取得太长了，应该精简一下
   const {
     selectedCategoryChainNodes,
     selectedCategoryChainNodesDispatch,
