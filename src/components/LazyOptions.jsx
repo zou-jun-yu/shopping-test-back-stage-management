@@ -2,7 +2,7 @@ import React from "react";
 import { Cascader } from "antd";
 import PropTypes from "prop-types";
 
-import { getSubCategoriesApi } from "../api";
+import { getSubCategoriesApi,cancelReq } from "../api";
 
 export default class LazyOptions extends React.Component {
   static propTypes = {
@@ -104,6 +104,9 @@ export default class LazyOptions extends React.Component {
     }
   }
 
+  componentWillUnmount(){
+    cancelReq();
+  }
   render() {
     const { goodsCategoryChainNodesIds } = this.state;
     return (

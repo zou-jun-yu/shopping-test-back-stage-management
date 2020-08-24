@@ -3,7 +3,7 @@ import { Form, Input, Button, message } from "antd";
 
 import PicturesWall from "../../components/PicturesWall ";
 import LazyOptions from "../../components/LazyOptions";
-import { addOrUpdateGoodsApi, getGoodsDetailApi } from "../../api";
+import { addOrUpdateGoodsApi, getGoodsDetailApi, cancelReq } from "../../api";
 import { selectedCategoryChainNodesContext } from "../../components/Reducer";
 
 import "./GoodsDetail.less";
@@ -52,6 +52,7 @@ function GoodsDetail(props) {
         }
       });
     }
+    return cancelReq;
   }, [props.match.params.id, selectedCategoryChainNodesDispatch]);
 
   const onReset = () => {

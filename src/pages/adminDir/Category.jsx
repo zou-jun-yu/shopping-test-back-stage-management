@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { message, Card } from "antd";
 
-import { getSubCategoriesApi } from "../../api";
+import { getSubCategoriesApi, cancelReq } from "../../api";
 import { selectedCategoryChainNodesContext } from "../../components/Reducer";
 import { BASE_URL } from "../../config";
 
@@ -28,6 +28,7 @@ function Category(props) {
         }
       });
     }
+    return cancelReq;
   }, [selectedCategoryChainNodes, props.history]);
 
   return (

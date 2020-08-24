@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button, Modal } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import "./Login.less";
-import { loginApi } from "../api";
+import { loginApi, cancelReq } from "../api";
 import { setToken } from "../utils/auth";
 
 function Login(props) {
@@ -16,7 +16,9 @@ function Login(props) {
       Modal.error({ title: msg });
     }
   };
-
+  useEffect(() => {
+    return cancelReq;
+  });
   return (
     <Form
       name="normal_login"

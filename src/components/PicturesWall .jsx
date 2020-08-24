@@ -3,7 +3,7 @@ import { Upload, Modal, message } from "antd";
 import PropTypes from "prop-types";
 import { PlusOutlined } from "@ant-design/icons";
 
-import { deleteUploadImageApi } from "../api";
+import { deleteUploadImageApi, cancelReq } from "../api";
 import { BASE_URL } from "../config";
 
 export default class PicturesWall extends React.Component {
@@ -27,6 +27,10 @@ export default class PicturesWall extends React.Component {
       url: BASE_URL + "/images/uploads/" + src,
     }));
     this.state = { ...this.initState, fileList };
+  }
+
+  componentWillUnmount(){
+    cancelReq();
   }
 
   resetState = () => {

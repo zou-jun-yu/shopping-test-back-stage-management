@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { message, Button, Table, Tooltip } from "antd";
 
-import { getGoodsListApi, deleteManyGoodsApi } from "../../api";
+import { getGoodsListApi, deleteManyGoodsApi, cancelReq } from "../../api";
 import { selectedCategoryChainNodesContext } from "../../components/Reducer";
 import { BASE_URL } from "../../config";
 
@@ -31,6 +31,7 @@ function GoodsList(props) {
 
   useEffect(() => {
     memoizedCallbackGetGoodsList();
+    return cancelReq;
   }, [memoizedCallbackGetGoodsList]);
 
   let titleMap = {},

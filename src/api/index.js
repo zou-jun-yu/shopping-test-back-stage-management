@@ -1,4 +1,4 @@
-import { post,get } from "./ajax";
+import { post,get,cancelRequest } from "./ajax";
 
 export const loginApi = (user) => post("/api2/users/login", user);
 
@@ -12,3 +12,5 @@ export const addOrUpdateGoodsApi = (goods) => post("/api2/shopping/addOrUpdateGo
 export const getGoodsDetailApi = (_id) => get("/api2/shopping/getGoodsDetail", {_id});
 
 export const deleteUploadImageApi = (imageName) => post("/api2/shopping/deleteUploadImage", {imageName});
+
+export const cancelReq = cancelRequest;
