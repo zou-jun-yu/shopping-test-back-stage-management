@@ -10,7 +10,9 @@ import "./GoodsDetail.less";
 
 function GoodsDetail(props) {
   const [form] = Form.useForm();
+  //图片上传组件
   const picturesWallRef = useRef(null);
+  //级联选择下拉框
   const lazyOptionsRef = useRef(null);
 
   const layout = {
@@ -29,11 +31,13 @@ function GoodsDetail(props) {
   };
 
   const [goodsDetail, setGoodsDetail] = useState(null);
+  //用于修改分类链的dispatch方法
   const { selectedCategoryChainNodesDispatch } = useContext(
     selectedCategoryChainNodesContext
   );
   useEffect(() => {
     const _id = props.match.params.id;
+    //如果动态路由参数id存在，那么就是修改商品信息。否则就是添加商品。
     if (_id) {
       getGoodsDetailApi(_id).then((result) => {
         const { code, msg, data } = result;
@@ -55,6 +59,7 @@ function GoodsDetail(props) {
     return cancelReq;
   }, [props.match.params.id, selectedCategoryChainNodesDispatch]);
 
+  //重置表单
   const onReset = () => {
     form.setFieldsValue({
       goodsName: "",
@@ -67,6 +72,7 @@ function GoodsDetail(props) {
     picturesWallRef.current.resetState();
   };
 
+  //提交表单时调用此方法
   const onFinish = async (values) => {
     values.marketPrice *= 1;
     values.nowPrice *= 1;

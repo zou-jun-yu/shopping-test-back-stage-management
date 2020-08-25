@@ -1,7 +1,9 @@
 import axios from "axios";
 import { getToken } from "../utils/auth";
 
+//封装ajax请求
 let cancel;
+//请求拦截
 axios.interceptors.request.use(
   (config) => {
     config.headers["authorization"] = getToken();
@@ -13,6 +15,7 @@ axios.interceptors.request.use(
   (err) => Promise.reject(err)
 );
 
+//响应拦截
 axios.interceptors.response.use(
   (response) => {        cancel = null;
   return  response.data},
@@ -26,6 +29,8 @@ axios.interceptors.response.use(
     }
   }
 );
+
+//取消ajax请求
 function cancelReq() {
   if (typeof cancel === 'function') {
     cancel('强制取消请求')

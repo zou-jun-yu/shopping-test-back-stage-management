@@ -10,6 +10,7 @@ import CategoryManage from "../../components/CategoryManage";
 
 const { Link } = Typography;
 
+//商品和商品种类管理
 function GoodsManage(props) {
   const {
     selectedCategoryChainNodes,

@@ -14,7 +14,9 @@ function GoodsList(props) {
   );
   const [goodsList, setGoodsList] = useState([]);
 
+  //根据当前选中的分类链末端（是一个三级分类）的id请求获取该分类下的商品列表
   const memoizedCallbackGetGoodsList = useCallback(() => {
+    setLoading(true);
     getGoodsListApi(
       selectedCategoryChainNodes[selectedCategoryChainNodes.length - 1]._id
     ).then(({ code, data, msg }) => {
@@ -23,6 +25,7 @@ function GoodsList(props) {
           goods.key = goods._id;
         });
         setGoodsList(data.goodsList);
+        setLoading(false);
       } else {
         message.error(msg);
       }
@@ -34,6 +37,7 @@ function GoodsList(props) {
     return cancelReq;
   }, [memoizedCallbackGetGoodsList]);
 
+  //设置表格头部
   let titleMap = {},
     columns = [];
   if (goodsList.length) {
@@ -115,6 +119,7 @@ function GoodsList(props) {
     });
   }
 
+  //发出删除商品请求
   const start = async () => {
     setLoading(true);
     const result = await deleteManyGoodsApi(selectedRowKeys);
@@ -155,7 +160,6 @@ function GoodsList(props) {
             type="primary"
             onClick={start}
             disabled={!hasSelected}
-            loading={loading}
           >
             删除选中商品
           </Button>
@@ -175,6 +179,7 @@ function GoodsList(props) {
         rowSelection={rowSelection}
         columns={columns}
         dataSource={goodsList}
+        loading={loading}
         pagination={{
           defaultPageSize: 2,
         }}

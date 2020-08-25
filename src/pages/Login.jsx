@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Modal } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
@@ -7,8 +7,11 @@ import { loginApi, cancelReq } from "../api";
 import { setToken } from "../utils/auth";
 
 function Login(props) {
+  const [loading, setLoading] = useState(false);
   const onFinish = async (user) => {
+    setLoading(true);
     const { status, data, msg } = await loginApi(user);
+    setLoading(false);
     if (status === 0) {
       setToken(data.token);
       props.history.push("/admin");
@@ -16,9 +19,6 @@ function Login(props) {
       Modal.error({ title: msg });
     }
   };
-  useEffect(() => {
-    return cancelReq;
-  });
   return (
     <Form
       name="normal_login"
@@ -47,7 +47,12 @@ function Login(props) {
         />
       </Form.Item>
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button
+          type="primary"
+          htmlType="submit"
+          className="login-form-button"
+          loading={loading}
+        >
           登录
         </Button>
       </Form.Item>

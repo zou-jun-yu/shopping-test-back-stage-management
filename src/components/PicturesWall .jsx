@@ -6,6 +6,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { deleteUploadImageApi, cancelReq } from "../api";
 import { BASE_URL } from "../config";
 
+//图片上传组件
 export default class PicturesWall extends React.Component {
   static propTypes = {
     images: PropTypes.array,
@@ -20,6 +21,7 @@ export default class PicturesWall extends React.Component {
       previewTitle: "",
       fileList: [],
     };
+    //初始化显示是否已经上传果图片
     const fileList = this.props.images.map((src, index) => ({
       uid: -index + "",
       name: src,
@@ -29,6 +31,7 @@ export default class PicturesWall extends React.Component {
     this.state = { ...this.initState, fileList };
   }
 
+  //跳转到其它页面时，取消ajax请求
   componentWillUnmount(){
     cancelReq();
   }
@@ -37,12 +40,15 @@ export default class PicturesWall extends React.Component {
     this.setState(this.initState);
   };
 
+  //向往提供当前商品上传了哪些图片的信息
   getImgs = () => {
     return this.state.fileList.map((file) => file.name);
   };
 
+  //隐藏预览大图模态窗
   handleCancel = () => this.setState({ previewVisible: false });
 
+  //显示大图预览
   handlePreview = async (file) => {
     this.setState({
       previewImage: file.url || file.preview,
@@ -54,6 +60,7 @@ export default class PicturesWall extends React.Component {
 
   handleChange = async ({ fileList, file }) => {
     if (file.status === "done") {
+      //当成功上传图片时，更新图片列表
       const result = file.response;
       if (result.code === 0) {
         message.success(result.msg);
@@ -65,6 +72,7 @@ export default class PicturesWall extends React.Component {
         message.error(result.msg);
       }
     } else if (file.status === "removed") {
+      //删除上传的图片
       const result = await deleteUploadImageApi(file.name);
       if (result.code === 0) {
         message.success(result.msg);

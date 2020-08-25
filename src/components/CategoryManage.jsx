@@ -13,29 +13,37 @@ import { selectedCategoryChainNodesContext } from "./Reducer";
 const { Link } = Typography;
 
 const CategoryManage = (props) => {
+  //图片上传组件
   const picturesWallAddRef = useRef(null);
   const picturesWallUpdateRef = useRef(null);
 
+  //模态框
   const [modalState, setModalState] = useState({
     ModalTitle: "",
     visible: false,
     confirmLoading: false,
   });
 
+  //当前分类链，以及改变分类链的dispatch方法
   const {
     selectedCategoryChainNodes,
     selectedCategoryChainNodesDispatch,
   } = useContext(selectedCategoryChainNodesContext);
+
+  //分类链中的最后一个分类是当前分类
   const currentCategory =
     selectedCategoryChainNodes[selectedCategoryChainNodes.length - 1];
+  //当前分类的名字
   const [categoryName, setCategoryName] = useState(
     currentCategory.categoryName
   );
 
+  //当前分类变化时，取得最新的当前分类的名字
   useEffect(() => {
     setCategoryName(currentCategory.categoryName);
   }, [currentCategory.categoryName]);
 
+  //显示模态框
   const showModal = (operationType) => {
     setModalState({
       ModalTitle: operationType,
@@ -47,6 +55,7 @@ const CategoryManage = (props) => {
     }
   };
 
+  //点击确定按钮时
   const handleOk = async () => {
     setModalState((modalState) => ({
       ...modalState,
@@ -60,24 +69,29 @@ const CategoryManage = (props) => {
           categoryName,
         };
         if (picturesWallUpdateRef.current.getImgs().length) {
+          //选择图片上传组件的第一张图片作为新分类的图片
           categoryAfterUpdate.categoryImage = picturesWallUpdateRef.current.getImgs()[0];
         } else {
+          //图片上传组件没有图片时，删除新分类的图片
           delete categoryAfterUpdate.categoryImage;
         }
         result = await addOrUpdateCategoryApi(categoryAfterUpdate);
         break;
       case "删除分类":
         if (currentCategory.categoryImage) {
+          //先删除当前分类的图片
           deleteImageResult = await deleteUploadImageApi(
             currentCategory.categoryImage
           );
         }
+        //再删除当前分类
         result = await deleteCategoryApi(currentCategory._id);
         if (deleteImageResult && deleteImageResult.code !== 0) {
           result = deleteImageResult;
         }
         break;
       case "添加分类":
+        //为当前分类添加一个子分类对象
         const newCategory = {
           parentId: currentCategory._id,
           categoryName,
@@ -101,6 +115,7 @@ const CategoryManage = (props) => {
       visible: false,
       confirmLoading: false,
     });
+    //修改状态重新回到“一级分类列表”
     selectedCategoryChainNodesDispatch({
       type: "clickSelectedCategoryChainNode",
       selectedCategoryChainNode: selectedCategoryChainNodes[0],
@@ -108,6 +123,7 @@ const CategoryManage = (props) => {
     props.history.push("/admin/goodsManage/category");
   };
 
+  //如果点击了取消按钮
   const handleCancel = () => {
     setModalState({
       ModalTitle: "",
@@ -122,9 +138,11 @@ const CategoryManage = (props) => {
   return (
     <div style={{ fontSize: 16 }}>
       <Space size={50}>
+        {/* 三级分类列表下不能再添加子分类了 */}
         {selectedCategoryChainNodes.length < 4 ? (
           <Link onClick={() => showModal("添加分类")}>添加分类</Link>
         ) : null}
+        {/* 不能删除和修改根分类节点 */}
         {selectedCategoryChainNodes.length > 1 ? (
           <>
             <Link onClick={() => showModal("修改分类")}>修改分类</Link>
@@ -141,6 +159,7 @@ const CategoryManage = (props) => {
         okText="确认"
         cancelText="取消"
       >
+        {/* 根据ModalTitle显示哪一个模态框 */}
         {ModalTitle === "修改分类" ? (
           <>
             <Row justify="space-around" align="middle" gutter={[10, 30]}>
