@@ -21,7 +21,7 @@ axios.interceptors.response.use(
   return  response.data},
   error => {
     if (axios.isCancel(error)) {
-      console.log('请求取消的错误', error.message)
+      // console.log('请求取消的错误', error.message)
       return new Promise(() => {})
     } else { 
       cancel = null
@@ -35,7 +35,7 @@ function cancelReq() {
   if (typeof cancel === 'function') {
     cancel('强制取消请求')
   } else {
-    console.log('没有可取消的请求')
+    // console.log('没有可取消的请求')
   }
 }
 

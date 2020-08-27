@@ -123,9 +123,8 @@ function GoodsList(props) {
   const start = async () => {
     setLoading(true);
     const result = await deleteManyGoodsApi(selectedRowKeys);
-    const { code, msg, data } = result;
+    const { code, msg } = result;
     if (code === 0) {
-      console.log(data);
       message.success(msg);
       setSelectedRowKeys([]);
       memoizedCallbackGetGoodsList();
@@ -136,7 +135,7 @@ function GoodsList(props) {
   };
 
   const onSelectChange = (selectedRowKeys) => {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
+    // console.log("selectedRowKeys changed: ", selectedRowKeys);
     setSelectedRowKeys(selectedRowKeys);
   };
 
