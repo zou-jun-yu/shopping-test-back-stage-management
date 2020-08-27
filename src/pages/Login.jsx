@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Modal } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import "./Login.less";
-import { loginApi, cancelReq } from "../api";
+import { loginApi } from "../api";
 import { setToken } from "../utils/auth";
 
 function Login(props) {

@@ -1,5 +1,5 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import Login from "./pages/Login";
@@ -7,7 +7,7 @@ import Admin from "./pages/Admin";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="back-manage">
       <Switch>
         <Route
           path="/login"
