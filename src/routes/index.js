@@ -6,6 +6,7 @@ import Order from '../pages/adminDir/Order'
 import Category from '../pages/adminDir/Category'
 import GoodsDetail from '../pages/adminDir/GoodsDetail'
 import GoodsList from '../pages/adminDir/GoodsList'
+import UserManage from '../pages/adminDir/UserManage'
 
 export const mainRoutes=[
     {
@@ -30,6 +31,10 @@ export const adminRoutes=[
     {
         path:'/admin/order',
         component:Order
+    },
+    {
+        path:'/admin/userManage',
+        component:UserManage
     }
 ]
 

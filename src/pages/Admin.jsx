@@ -45,6 +45,9 @@ function Admin(props) {
             <Menu.Item key="order">
               <Link to="/admin/order">订单管理</Link>
             </Menu.Item>
+            <Menu.Item key="userManage">
+              <Link to="/admin/userManage">用户管理</Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout style={{ padding: "0 24px 24px" }}>
@@ -70,7 +73,7 @@ function Admin(props) {
                     component={item.component}
                   />
                 ))}
-                <Redirect to="/admin/order" />
+                <Redirect to="/admin/goodsManage" />
               </Switch>
             </selectedCategoryChainNodesContext.Provider>
             <footer className="footer"></footer>

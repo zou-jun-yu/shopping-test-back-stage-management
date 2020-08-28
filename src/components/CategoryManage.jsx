@@ -5,7 +5,6 @@ import { withRouter } from "react-router-dom";
 import {
   addOrUpdateCategoryApi,
   deleteCategoryApi,
-  deleteUploadImageApi,
 } from "../api";
 import PicturesWall from "./PicturesWall ";
 import { selectedCategoryChainNodesContext } from "./Reducer";
@@ -78,17 +77,17 @@ const CategoryManage = (props) => {
         result = await addOrUpdateCategoryApi(categoryAfterUpdate);
         break;
       case "删除分类":
-        if (currentCategory.categoryImage) {
-          //先删除当前分类的图片
-          deleteImageResult = await deleteUploadImageApi(
-            currentCategory.categoryImage
-          );
-        }
-        //再删除当前分类
+        // if (currentCategory.categoryImage) {
+        //   //先删除当前分类的图片
+        //   deleteImageResult = await deleteUploadImageApi(
+        //     currentCategory.categoryImage
+        //   );
+        // }
+        //删除当前分类
         result = await deleteCategoryApi(currentCategory._id);
-        if (deleteImageResult && deleteImageResult.code !== 0) {
-          result = deleteImageResult;
-        }
+        // if (deleteImageResult && deleteImageResult.code !== 0) {
+        //   result = deleteImageResult;
+        // }
         break;
       case "添加分类":
         //为当前分类添加一个子分类对象
@@ -120,7 +119,7 @@ const CategoryManage = (props) => {
       type: "clickSelectedCategoryChainNode",
       selectedCategoryChainNode: selectedCategoryChainNodes[0],
     });
-    props.history.push("/admin/goodsManage/category");
+    // props.history.push("/admin/goodsManage/category");
   };
 
   //如果点击了取消按钮
