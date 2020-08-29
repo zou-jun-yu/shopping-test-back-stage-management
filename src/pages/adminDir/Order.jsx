@@ -3,7 +3,7 @@ import React from 'react'
 function Order() {
     return (
         <div>
-            Order
+            敬请期待
         </div>
     )
 }

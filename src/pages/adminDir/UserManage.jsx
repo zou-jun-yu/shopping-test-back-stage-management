@@ -3,7 +3,7 @@ import React from 'react'
 function UserManage() {
     return (
         <div>
-            UserManage
+            敬请期待
         </div>
     )
 }

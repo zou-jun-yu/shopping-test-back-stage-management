@@ -60,7 +60,7 @@ const CategoryManage = (props) => {
       ...modalState,
       confirmLoading: true,
     }));
-    let result, deleteImageResult;
+    let result;
     switch (modalState.ModalTitle) {
       case "修改分类":
         const categoryAfterUpdate = {
