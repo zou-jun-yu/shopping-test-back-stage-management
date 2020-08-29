@@ -3,8 +3,8 @@ module.exports = {
     {
       name: "ShoppingManage",
       log_date_format: "YYYY-MM-DD HH:mm Z",
-      watch: true,
-      ignore_watch: ["node_modules", "build"],
+      // watch: true,
+      // ignore_watch: ["node_modules", "build"],
     },
   ],
 
@@ -15,7 +15,8 @@ module.exports = {
       ref: "origin/master",
       repo: "git@github.com:zou-uoz/shopping-test-back-stage-management.git",
       path: "/root/shopping-test/shopping-test-back-stage-management",
-      "post-deploy": "git pull&&npm install&&npm run build",
+      // "post-deploy": "git pull&&npm install&&npm run build",
+      "post-deploy": "git pull&&npm run build",
     },
   },
 };
