@@ -1,5 +1,12 @@
 module.exports = {
-  apps: [],
+  apps: [
+    {
+      name: "ShoppingManage",
+      log_date_format: "YYYY-MM-DD HH:mm Z",
+      watch: true,
+      ignore_watch: ["node_modules", "build"],
+    },
+  ],
 
   deploy: {
     production: {
