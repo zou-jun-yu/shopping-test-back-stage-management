@@ -3,7 +3,7 @@ import { message, Card, Spin } from "antd";
 
 import { getSubCategoriesApi, cancelReq } from "../../api";
 import { selectedCategoryChainNodesContext } from "../../components/Reducer";
-import { BASE_URL } from "../../config";
+import { IMAGES_DIR } from "../../config";
 
 const { Meta } = Card;
 
@@ -51,7 +51,7 @@ function Category(props) {
                 <img
                   alt="商品分类图片"
                   style={{ height: 105, width: 105 }}
-                  src={BASE_URL + "/images/uploads/" + category.categoryImage}
+                  src={IMAGES_DIR + category.categoryImage}
                 />
               ) : null
             }

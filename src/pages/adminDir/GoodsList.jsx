@@ -3,7 +3,7 @@ import { message, Button, Table, Tooltip } from "antd";
 
 import { getGoodsListApi, deleteManyGoodsApi, cancelReq } from "../../api";
 import { selectedCategoryChainNodesContext } from "../../components/Reducer";
-import { BASE_URL } from "../../config";
+import {  IMAGES_DIR } from "../../config";
 
 function GoodsList(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -68,7 +68,7 @@ function GoodsList(props) {
               placement="left"
               title={attrValue.map((imageName) => (
                 <img
-                  src={BASE_URL + "/images/uploads/" + imageName}
+                  src={IMAGES_DIR + imageName}
                   alt="商品图片"
                   key={imageName}
                   style={{ height: 150, width: 150, margin: 4 }}
@@ -77,7 +77,7 @@ function GoodsList(props) {
             >
               {attrValue.map((imageName) => (
                 <img
-                  src={BASE_URL + "/images/uploads/" + imageName}
+                  src={IMAGES_DIR + imageName}
                   alt="商品图片"
                   key={imageName}
                   style={{ height: 70, width: 70, marginRight: 2 }}

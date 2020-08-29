@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { PlusOutlined } from "@ant-design/icons";
 
 import { deleteUploadImageApi, cancelReq } from "../api";
-import { BASE_URL } from "../config";
+import {  IMAGES_DIR } from "../config";
 
 //图片上传组件
 export default class PicturesWall extends React.Component {
@@ -26,7 +26,7 @@ export default class PicturesWall extends React.Component {
       uid: -index + "",
       name: src,
       status: "done",
-      url: BASE_URL + "/images/uploads/" + src,
+      url: IMAGES_DIR + src,
     }));
     this.state = { ...this.initState, fileList };
   }
