@@ -15,7 +15,7 @@ module.exports = {
       ref: "origin/master",
       repo: "git@github.com:zou-uoz/shopping-test-back-stage-management.git",
       path: "/root/shopping-test/shopping-test-back-stage-management",
-      "post-deploy": "npm install&&npm run build",
+      "post-deploy": "git pull&&npm install&&npm run build",
     },
   },
 };
