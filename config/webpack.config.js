@@ -163,13 +163,14 @@ module.exports = function (webpackEnv) {
     ].filter(Boolean),
     output: {
       // The build folder.
-      // path: isEnvProduction ? paths.appBuild : undefined,
-      path:
-        process.env.NODE_ENV === "production"
-          ? "/usr/share/nginx/html/back-manage"
-          : isEnvProduction
-          ? paths.appBuild
-          : undefined,
+      path: isEnvProduction ? paths.appBuild : undefined,
+      //为什么下面这种办法改变输出路径会导致出错？
+      // path:
+      //   process.env.NODE_ENV === "production"
+          // ? "/usr/share/nginx/html/back-manage"
+          // : isEnvProduction
+          // ? paths.appBuild
+          // : undefined,
       // Add /* filename */ comments to generated require()s in the output.
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
