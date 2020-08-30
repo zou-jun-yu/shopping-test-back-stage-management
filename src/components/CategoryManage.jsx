@@ -2,10 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import { Input, message, Modal, Row, Col, Space, Typography } from "antd";
 import { withRouter } from "react-router-dom";
 
-import {
-  addOrUpdateCategoryApi,
-  deleteCategoryApi,
-} from "../api";
+import { addOrUpdateCategoryApi, deleteCategoryApi } from "../api";
 import PicturesWall from "./PicturesWall ";
 import { selectedCategoryChainNodesContext } from "./Reducer";
 
@@ -67,7 +64,10 @@ const CategoryManage = (props) => {
           ...currentCategory,
           categoryName,
         };
-        if (picturesWallUpdateRef.current.getImgs().length) {
+        if (
+          picturesWallUpdateRef.current &&
+          picturesWallUpdateRef.current.getImgs().length
+        ) {
           //选择图片上传组件的第一张图片作为新分类的图片
           categoryAfterUpdate.categoryImage = picturesWallUpdateRef.current.getImgs()[0];
         } else {
@@ -95,7 +95,10 @@ const CategoryManage = (props) => {
           parentId: currentCategory._id,
           categoryName,
         };
-        if (picturesWallAddRef.current.getImgs().length) {
+        if (
+          picturesWallAddRef.current &&
+          picturesWallAddRef.current.getImgs().length
+        ) {
           newCategory.categoryImage = picturesWallAddRef.current.getImgs()[0];
         }
         result = await addOrUpdateCategoryApi(newCategory);
