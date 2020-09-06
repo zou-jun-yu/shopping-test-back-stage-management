@@ -1,10 +1,12 @@
-import React, { useRef, useEffect, useState, useContext } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Form, Input, Button, message } from "antd";
+import { connect } from "react-redux";
 
 import PicturesWall from "../../components/PicturesWall ";
 import LazyOptions from "../../components/LazyOptions";
 import { addOrUpdateGoodsApi, getGoodsDetailApi, cancelReq } from "../../api";
-import { selectedCategoryChainNodesContext } from "../../components/Reducer";
+// import { selectedCategoryChainNodesContext } from "../../components/Reducer";
+import { getSelectedCategoryChainNodesFromGoodsDetail } from "../../redux/actions";
 
 import "./GoodsDetail.less";
 
@@ -14,6 +16,8 @@ function GoodsDetail(props) {
   const picturesWallRef = useRef(null);
   //级联选择下拉框
   const lazyOptionsRef = useRef(null);
+
+  const { getSelectedCategoryChainNodesFromGoodsDetail } = props;
 
   const layout = {
     labelCol: {
@@ -31,10 +35,10 @@ function GoodsDetail(props) {
   };
 
   const [goodsDetail, setGoodsDetail] = useState(null);
-  //用于修改分类链的dispatch方法
-  const { selectedCategoryChainNodesDispatch } = useContext(
-    selectedCategoryChainNodesContext
-  );
+  // //用于修改祖先链的dispatch方法
+  // const { selectedCategoryChainNodesDispatch } = useContext(
+  //   selectedCategoryChainNodesContext
+  // );
   useEffect(() => {
     const _id = props.match.params.id;
     //如果动态路由参数id存在，那么就是修改商品信息。否则就是添加商品。
@@ -47,17 +51,20 @@ function GoodsDetail(props) {
             goodsCategoryChainNodes: data.goodsCategoryChainNodes,
             goodsCategoryOptions: data.goodsCategoryOptions,
           });
-          selectedCategoryChainNodesDispatch({
-            type: "getSelectedCategoryChainNodesFromGoodsDetail",
-            goodsCategoryChainNodes: data.goodsCategoryChainNodes,
-          });
+          // selectedCategoryChainNodesDispatch({
+          //   type: "getSelectedCategoryChainNodesFromGoodsDetail",
+          //   goodsCategoryChainNodes: data.goodsCategoryChainNodes,
+          // });
+          getSelectedCategoryChainNodesFromGoodsDetail(
+            data.goodsCategoryChainNodes
+          );
         } else {
           message.error(msg);
         }
       });
     }
     return cancelReq;
-  }, [props.match.params.id, selectedCategoryChainNodesDispatch]);
+  }, [props.match.params.id, getSelectedCategoryChainNodesFromGoodsDetail]);
 
   //重置表单
   const onReset = () => {
@@ -181,4 +188,7 @@ function GoodsDetail(props) {
   );
 }
 
-export default GoodsDetail;
+// export default GoodsDetail;
+export default connect((state) => ({}), {
+  getSelectedCategoryChainNodesFromGoodsDetail,
+})(GoodsDetail);

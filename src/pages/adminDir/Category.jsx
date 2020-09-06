@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { message, Card, Spin } from "antd";
+import { connect } from "react-redux";
 
 import { getSubCategoriesApi, cancelReq } from "../../api";
-import { selectedCategoryChainNodesContext } from "../../components/Reducer";
+// import { selectedCategoryChainNodesContext } from "../../components/Reducer";
+import { pushSelectedCategoryChainNode } from "../../redux/actions";
 import { IMAGES_DIR } from "../../config";
 
 const { Meta } = Card;
@@ -10,17 +12,18 @@ const { Meta } = Card;
 function Category(props) {
   const [subCategories, setSubCategories] = useState([]);
   const [loading, setLoading] = useState(false);
-  const {
-    selectedCategoryChainNodes,
-    selectedCategoryChainNodesDispatch,
-  } = useContext(selectedCategoryChainNodesContext);
+  const { selectedCategoryChainNodes, pushSelectedCategoryChainNode } = props;
+  // const {
+  //   selectedCategoryChainNodes,
+  //   selectedCategoryChainNodesDispatch,
+  // } = useContext(selectedCategoryChainNodesContext);
 
   useEffect(() => {
     //一个有3个层级的分类，加上开头那个“一级分类列表”就是4个。当分类连长度达到4后，就该跳到商品列表页显示商品列表了。
     if (selectedCategoryChainNodes.length >= 4) {
       props.history.push("/admin/goodsManage/goodsList");
     } else {
-      //获取分类链最后一个节点的所有子分类列表并把它们显示在页面上
+      //获取祖先链最后一个节点的所有子分类列表并把它们显示在页面上
       setLoading(true);
       getSubCategoriesApi(
         selectedCategoryChainNodes[selectedCategoryChainNodes.length - 1]._id
@@ -56,10 +59,7 @@ function Category(props) {
               ) : null
             }
             onClick={() => {
-              selectedCategoryChainNodesDispatch({
-                type: "pushSelectedCategoryChainNode",
-                category,
-              });
+              pushSelectedCategoryChainNode(category);
             }}
           >
             <Meta
@@ -77,4 +77,10 @@ function Category(props) {
   );
 }
 
-export default Category;
+// export default Category;
+export default connect(
+  (state) => ({
+    selectedCategoryChainNodes: state.selectedCategoryChainNodes,
+  }),
+  { pushSelectedCategoryChainNode }
+)(Category);

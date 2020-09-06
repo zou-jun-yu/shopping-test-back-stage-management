@@ -1,10 +1,12 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Input, message, Modal, Row, Col, Space, Typography } from "antd";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { addOrUpdateCategoryApi, deleteCategoryApi } from "../api";
 import PicturesWall from "./PicturesWall ";
-import { selectedCategoryChainNodesContext } from "./Reducer";
+import { clickSelectedCategoryChainNode } from "../redux/actions";
+// import { selectedCategoryChainNodesContext } from "./Reducer";
 
 const { Link } = Typography;
 
@@ -20,13 +22,13 @@ const CategoryManage = (props) => {
     confirmLoading: false,
   });
 
-  //当前分类链，以及改变分类链的dispatch方法
-  const {
-    selectedCategoryChainNodes,
-    selectedCategoryChainNodesDispatch,
-  } = useContext(selectedCategoryChainNodesContext);
-
-  //分类链中的最后一个分类是当前分类
+  // //当前祖先链，以及改变祖先链的dispatch方法
+  // const {
+  //   selectedCategoryChainNodes,
+  //   selectedCategoryChainNodesDispatch,
+  // } = useContext(selectedCategoryChainNodesContext);
+  const { selectedCategoryChainNodes, clickSelectedCategoryChainNode } = props;
+  //祖先链中的最后一个分类是当前分类
   const currentCategory =
     selectedCategoryChainNodes[selectedCategoryChainNodes.length - 1];
   //当前分类的名字
@@ -117,11 +119,12 @@ const CategoryManage = (props) => {
       visible: false,
       confirmLoading: false,
     });
-    //修改状态重新回到“一级分类列表”
-    selectedCategoryChainNodesDispatch({
-      type: "clickSelectedCategoryChainNode",
-      selectedCategoryChainNode: selectedCategoryChainNodes[0],
-    });
+    // //修改状态重新回到“一级分类列表”
+    // selectedCategoryChainNodesDispatch({
+    //   type: "clickSelectedCategoryChainNode",
+    //   selectedCategoryChainNode: selectedCategoryChainNodes[0],
+    // });
+    clickSelectedCategoryChainNode(selectedCategoryChainNodes[0]);
     // props.history.push("/admin/goodsManage/category");
   };
 
@@ -232,4 +235,12 @@ const CategoryManage = (props) => {
   );
 };
 
-export default withRouter(CategoryManage);
+// export default withRouter(CategoryManage);
+export default withRouter(
+  connect(
+    (state) => ({
+      selectedCategoryChainNodes: state.selectedCategoryChainNodes,
+    }),
+    { clickSelectedCategoryChainNode }
+  )(CategoryManage)
+);

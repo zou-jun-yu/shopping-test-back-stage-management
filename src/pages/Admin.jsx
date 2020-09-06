@@ -1,23 +1,23 @@
-import React, { useReducer } from "react";
+import React from "react";
 import { Layout, Menu } from "antd";
 import { Switch, Route, Redirect, Link } from "react-router-dom";
 
 import "./Admin.less";
 import { adminRoutes } from "../routes";
 import { getToken, clearToken } from "../utils/auth";
-import {
-  selectedCategoryChainNodesContext,
-  reducer,
-  initSelectedCategoryChainNodes,
-} from "../components/Reducer";
+// import {
+//   selectedCategoryChainNodesContext,
+//   reducer,
+//   initSelectedCategoryChainNodes,
+// } from "../components/Reducer";
 
 const { Header, Content, Sider } = Layout;
 
 function Admin(props) {
-  const [
-    selectedCategoryChainNodes,
-    selectedCategoryChainNodesDispatch,
-  ] = useReducer(reducer, initSelectedCategoryChainNodes);
+  // const [
+  //   selectedCategoryChainNodes,
+  //   selectedCategoryChainNodesDispatch,
+  // ] = useReducer(reducer, initSelectedCategoryChainNodes);
 
   return getToken() ? (
     <Layout className="layout">
@@ -59,12 +59,12 @@ function Admin(props) {
               height: "100%",
             }}
           >
-            <selectedCategoryChainNodesContext.Provider
+            {/* <selectedCategoryChainNodesContext.Provider
               value={{
                 selectedCategoryChainNodes,
                 selectedCategoryChainNodesDispatch,
               }}
-            >
+            > */}
               <Switch>
                 {adminRoutes.map((item) => (
                   <Route
@@ -75,7 +75,7 @@ function Admin(props) {
                 ))}
                 <Redirect to="/admin/goodsManage" />
               </Switch>
-            </selectedCategoryChainNodesContext.Provider>
+            {/* </selectedCategoryChainNodesContext.Provider> */}
             <footer className="footer"></footer>
           </Content>
         </Layout>
@@ -87,3 +87,4 @@ function Admin(props) {
 }
 
 export default Admin;
+

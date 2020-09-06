@@ -1,20 +1,22 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { message, Button, Table, Tooltip } from "antd";
+import { connect } from "react-redux";
 
 import { getGoodsListApi, deleteManyGoodsApi, cancelReq } from "../../api";
-import { selectedCategoryChainNodesContext } from "../../components/Reducer";
-import {  IMAGES_DIR } from "../../config";
+// import { selectedCategoryChainNodesContext } from "../../components/Reducer";
+import { IMAGES_DIR } from "../../config";
 
 function GoodsList(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const { selectedCategoryChainNodes } = useContext(
-    selectedCategoryChainNodesContext
-  );
+  // const { selectedCategoryChainNodes } = useContext(
+  //   selectedCategoryChainNodesContext
+  // );
+  const { selectedCategoryChainNodes } = props;
   const [goodsList, setGoodsList] = useState([]);
 
-  //根据当前选中的分类链末端（是一个三级分类）的id请求获取该分类下的商品列表
+  //根据当前选中的祖先链末端（是一个三级分类）的id请求获取该分类下的商品列表
   const memoizedCallbackGetGoodsList = useCallback(() => {
     setLoading(true);
     getGoodsListApi(
@@ -155,11 +157,7 @@ function GoodsList(props) {
         }}
       >
         <div>
-          <Button
-            type="primary"
-            onClick={start}
-            disabled={!hasSelected}
-          >
+          <Button type="primary" onClick={start} disabled={!hasSelected}>
             删除选中商品
           </Button>
           <span style={{ marginLeft: 8 }}>
@@ -187,4 +185,7 @@ function GoodsList(props) {
   );
 }
 
-export default GoodsList;
+// export default GoodsList;
+export default connect((state) => ({
+  selectedCategoryChainNodes: state.selectedCategoryChainNodes,
+}))(GoodsList);

@@ -1,21 +1,24 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Card, Breadcrumb, Typography } from "antd";
+import { connect } from "react-redux";
 
 import Category from "./Category";
 import GoodsList from "./GoodsList";
 import GoodsDetail from "./GoodsDetail";
-import { selectedCategoryChainNodesContext } from "../../components/Reducer";
+import { clickSelectedCategoryChainNode } from "../../redux/actions";
+// import { selectedCategoryChainNodesContext } from "../../components/Reducer";
 import CategoryManage from "../../components/CategoryManage";
 
 const { Link } = Typography;
 
 //商品和商品种类管理
 function GoodsManage(props) {
-  const {
-    selectedCategoryChainNodes,
-    selectedCategoryChainNodesDispatch,
-  } = useContext(selectedCategoryChainNodesContext);
+  // const {
+  //   selectedCategoryChainNodes,
+  //   selectedCategoryChainNodesDispatch,
+  // } = useContext(selectedCategoryChainNodesContext);
+  const { selectedCategoryChainNodes, clickSelectedCategoryChainNode } = props;
 
   return (
     <Card
@@ -25,10 +28,11 @@ function GoodsManage(props) {
             <Breadcrumb.Item key={selectedCategoryChainNode._id}>
               <Link
                 onClick={() => {
-                  selectedCategoryChainNodesDispatch({
-                    type: "clickSelectedCategoryChainNode",
-                    selectedCategoryChainNode,
-                  });
+                  // selectedCategoryChainNodesDispatch({
+                  //   type: "clickSelectedCategoryChainNode",
+                  //   selectedCategoryChainNode,
+                  // });
+                  clickSelectedCategoryChainNode(selectedCategoryChainNode);
                   props.history.push("/admin/goodsManage/category");
                 }}
               >
@@ -67,4 +71,10 @@ function GoodsManage(props) {
   );
 }
 
-export default GoodsManage;
+// export default GoodsManage;
+export default connect(
+  (state) => ({ selectedCategoryChainNodes: state.selectedCategoryChainNodes }),
+  {
+    clickSelectedCategoryChainNode,
+  }
+)(GoodsManage);
