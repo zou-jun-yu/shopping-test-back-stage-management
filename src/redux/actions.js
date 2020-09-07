@@ -1,18 +1,18 @@
-export const clickSelectedCategoryChainNode = (
-  selectedCategoryChainNode
+export const clickOneOfAncestorCategories = (
+  category
 ) => ({
-  type: "clickSelectedCategoryChainNode",
-  selectedCategoryChainNode,
-});
-
-export const pushSelectedCategoryChainNode = (category) => ({
-  type: "pushSelectedCategoryChainNode",
+  type: "clickOneOfAncestorCategories",
   category,
 });
 
-export const getSelectedCategoryChainNodesFromGoodsDetail = (
-  goodsCategoryChainNodes
+export const pushCategory = (category) => ({
+  type: "pushCategory",
+  category,
+});
+
+export const getAncestorCategoriesFromGoodsDetail = (
+  ancestorCategories
 ) => ({
-  type: "getSelectedCategoryChainNodesFromGoodsDetail",
-  goodsCategoryChainNodes,
+  type: "getAncestorCategoriesFromGoodsDetail",
+  ancestorCategories,
 });

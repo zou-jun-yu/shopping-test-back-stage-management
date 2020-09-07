@@ -6,18 +6,18 @@ import "./Admin.less";
 import { adminRoutes } from "../routes";
 import { getToken, clearToken } from "../utils/auth";
 // import {
-//   selectedCategoryChainNodesContext,
+//   AncestorCategoriesContext,
 //   reducer,
-//   initSelectedCategoryChainNodes,
+//   initAncestorCategories,
 // } from "../components/Reducer";
 
 const { Header, Content, Sider } = Layout;
 
 function Admin(props) {
   // const [
-  //   selectedCategoryChainNodes,
-  //   selectedCategoryChainNodesDispatch,
-  // ] = useReducer(reducer, initSelectedCategoryChainNodes);
+  //   ancestorCategories,
+  //   ancestorCategoriesDispatch,
+  // ] = useReducer(reducer, initAncestorCategories);
 
   return getToken() ? (
     <Layout className="layout">
@@ -59,10 +59,10 @@ function Admin(props) {
               height: "100%",
             }}
           >
-            {/* <selectedCategoryChainNodesContext.Provider
+            {/* <AncestorCategoriesContext.Provider
               value={{
-                selectedCategoryChainNodes,
-                selectedCategoryChainNodesDispatch,
+                ancestorCategories,
+                ancestorCategoriesDispatch,
               }}
             > */}
               <Switch>
@@ -75,7 +75,7 @@ function Admin(props) {
                 ))}
                 <Redirect to="/admin/goodsManage" />
               </Switch>
-            {/* </selectedCategoryChainNodesContext.Provider> */}
+            {/* </AncestorCategoriesContext.Provider> */}
             <footer className="footer"></footer>
           </Content>
         </Layout>

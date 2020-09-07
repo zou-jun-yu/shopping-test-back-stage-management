@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import PicturesWall from "../../components/PicturesWall ";
 import LazyOptions from "../../components/LazyOptions";
 import { addOrUpdateGoodsApi, getGoodsDetailApi, cancelReq } from "../../api";
-// import { selectedCategoryChainNodesContext } from "../../components/Reducer";
-import { getSelectedCategoryChainNodesFromGoodsDetail } from "../../redux/actions";
+// import { AncestorCategoriesContext } from "../../components/Reducer";
+import { getAncestorCategoriesFromGoodsDetail } from "../../redux/actions";
 
 import "./GoodsDetail.less";
 
@@ -17,7 +17,7 @@ function GoodsDetail(props) {
   //级联选择下拉框
   const lazyOptionsRef = useRef(null);
 
-  const { getSelectedCategoryChainNodesFromGoodsDetail } = props;
+  const { getAncestorCategoriesFromGoodsDetail } = props;
 
   const layout = {
     labelCol: {
@@ -36,8 +36,8 @@ function GoodsDetail(props) {
 
   const [goodsDetail, setGoodsDetail] = useState(null);
   // //用于修改祖先链的dispatch方法
-  // const { selectedCategoryChainNodesDispatch } = useContext(
-  //   selectedCategoryChainNodesContext
+  // const { ancestorCategoriesDispatch } = useContext(
+  //   AncestorCategoriesContext
   // );
   useEffect(() => {
     const _id = props.match.params.id;
@@ -48,15 +48,15 @@ function GoodsDetail(props) {
         if (code === 0) {
           setGoodsDetail({
             ...data.goodsDetail,
-            goodsCategoryChainNodes: data.goodsCategoryChainNodes,
-            goodsCategoryOptions: data.goodsCategoryOptions,
+            ancestorCategories: data.ancestorCategories,
+            ancestorForest: data.ancestorForest,
           });
-          // selectedCategoryChainNodesDispatch({
-          //   type: "getSelectedCategoryChainNodesFromGoodsDetail",
-          //   goodsCategoryChainNodes: data.goodsCategoryChainNodes,
+          // ancestorCategoriesDispatch({
+          //   type: "getAncestorCategoriesFromGoodsDetail",
+          //   ancestorCategories: data.ancestorCategories,
           // });
-          getSelectedCategoryChainNodesFromGoodsDetail(
-            data.goodsCategoryChainNodes
+          getAncestorCategoriesFromGoodsDetail(
+            data.ancestorCategories
           );
         } else {
           message.error(msg);
@@ -64,7 +64,7 @@ function GoodsDetail(props) {
       });
     }
     return cancelReq;
-  }, [props.match.params.id, getSelectedCategoryChainNodesFromGoodsDetail]);
+  }, [props.match.params.id, getAncestorCategoriesFromGoodsDetail]);
 
   //重置表单
   const onReset = () => {
@@ -85,7 +85,7 @@ function GoodsDetail(props) {
     values.nowPrice *= 1;
     let goods = {
       ...values,
-      categoryId: lazyOptionsRef.current.provideGoodsCategoryChainNodes().pop(),
+      categoryId: lazyOptionsRef.current.provideAncestorCategories().pop(),
       goodsImages: picturesWallRef.current.getImgs(),
     };
     if (props.match.params.id) {
@@ -129,11 +129,11 @@ function GoodsDetail(props) {
       >
         <LazyOptions
           ref={lazyOptionsRef}
-          goodsCategoryChainNodes={
-            goodsDetail ? goodsDetail.goodsCategoryChainNodes : null
+          ancestorCategories={
+            goodsDetail ? goodsDetail.ancestorCategories : null
           }
-          goodsCategoryOptions={
-            goodsDetail ? goodsDetail.goodsCategoryOptions : null
+          ancestorForest={
+            goodsDetail ? goodsDetail.ancestorForest : null
           }
         />
       </Form.Item>
@@ -190,5 +190,5 @@ function GoodsDetail(props) {
 
 // export default GoodsDetail;
 export default connect((state) => ({}), {
-  getSelectedCategoryChainNodesFromGoodsDetail,
+  getAncestorCategoriesFromGoodsDetail,
 })(GoodsDetail);

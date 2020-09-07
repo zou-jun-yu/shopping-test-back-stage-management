@@ -3,36 +3,36 @@ import { message, Button, Table, Tooltip } from "antd";
 import { connect } from "react-redux";
 
 import { getGoodsListApi, deleteManyGoodsApi, cancelReq } from "../../api";
-// import { selectedCategoryChainNodesContext } from "../../components/Reducer";
+// import { AncestorCategoriesContext } from "../../components/Reducer";
 import { IMAGES_DIR } from "../../config";
 
 function GoodsList(props) {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // const { selectedCategoryChainNodes } = useContext(
-  //   selectedCategoryChainNodesContext
+  // const { ancestorCategories } = useContext(
+  //   AncestorCategoriesContext
   // );
-  const { selectedCategoryChainNodes } = props;
+  const { ancestorCategories } = props;
   const [goodsList, setGoodsList] = useState([]);
 
   //根据当前选中的祖先链末端（是一个三级分类）的id请求获取该分类下的商品列表
   const memoizedCallbackGetGoodsList = useCallback(() => {
     setLoading(true);
-    getGoodsListApi(
-      selectedCategoryChainNodes[selectedCategoryChainNodes.length - 1]._id
-    ).then(({ code, data, msg }) => {
-      if (code === 0) {
-        data.goodsList.forEach((goods) => {
-          goods.key = goods._id;
-        });
-        setGoodsList(data.goodsList);
-        setLoading(false);
-      } else {
-        message.error(msg);
+    getGoodsListApi(ancestorCategories[ancestorCategories.length - 1]._id).then(
+      ({ code, data, msg }) => {
+        if (code === 0) {
+          data.goodsList.forEach((goods) => {
+            goods.key = goods._id;
+          });
+          setGoodsList(data.goodsList);
+          setLoading(false);
+        } else {
+          message.error(msg);
+        }
       }
-    });
-  }, [selectedCategoryChainNodes]);
+    );
+  }, [ancestorCategories]);
 
   useEffect(() => {
     memoizedCallbackGetGoodsList();
@@ -40,85 +40,88 @@ function GoodsList(props) {
   }, [memoizedCallbackGetGoodsList]);
 
   //设置表格头部
-  let titleMap = {},
-    columns = [];
-  if (goodsList.length) {
-    titleMap = {
-      goodsName: "商品名称",
-      goodsDescription: "商品描述",
-      marketPrice: "原价",
-      nowPrice: "现价",
-      goodsImages: "商品图片",
-      goodsAmount: "库存量",
-      salesNumber: "已售",
-    };
-    columns = Object.keys(titleMap).map((attrName) => {
-      const config = {
-        title: titleMap[attrName],
-        key: attrName,
-        dataIndex: attrName,
-        ellipsis: {
-          showTitle: false,
-        },
+  let columns = [];
+  initColums();
+  function initColums() {
+    let titleMap = {};
+    if (goodsList.length) {
+      titleMap = {
+        goodsName: "商品名称",
+        goodsDescription: "商品描述",
+        marketPrice: "原价",
+        nowPrice: "现价",
+        goodsImages: "商品图片",
+        goodsAmount: "库存量",
+        salesNumber: "已售",
       };
-      if (attrName === "goodsImages") {
-        return {
-          ...config,
-          width: 200,
-          render: (attrValue) => (
-            <Tooltip
-              placement="left"
-              title={attrValue.map((imageName) => (
-                <img
-                  src={IMAGES_DIR + imageName}
-                  alt="商品图片"
-                  key={imageName}
-                  style={{ height: 150, width: 150, margin: 4 }}
-                />
-              ))}
-            >
-              {attrValue.map((imageName) => (
-                <img
-                  src={IMAGES_DIR + imageName}
-                  alt="商品图片"
-                  key={imageName}
-                  style={{ height: 70, width: 70, marginRight: 2 }}
-                />
-              ))}
-            </Tooltip>
-          ),
+      columns = Object.keys(titleMap).map((attrName) => {
+        const config = {
+          title: titleMap[attrName],
+          key: attrName,
+          dataIndex: attrName,
+          ellipsis: {
+            showTitle: false,
+          },
         };
-      } else {
-        return {
-          ...config,
-          width: attrName === "goodsDescription" ? 300 : "auto",
-          render: (attrValue) => (
-            <Tooltip placement="topLeft" title={attrValue}>
-              {attrValue}
-            </Tooltip>
-          ),
-        };
-      }
-    });
-    columns.push({
-      title: "操作",
-      key: "operation",
-      render: (text, record, index) => {
-        return (
-          <div>
-            <Button
-              onClick={() => {
-                props.history.push(
-                  `/admin/goodsManage/goodsDetail/${record._id}`
-                );
-              }}
-            >
-              编辑
-            </Button>
-          </div>
-        );
-      },
-    });
+        if (attrName === "goodsImages") {
+          return {
+            ...config,
+            width: 200,
+            render: (attrValue) => (
+              <Tooltip
+                placement="left"
+                title={attrValue.map((imageName) => (
+                  <img
+                    src={IMAGES_DIR + imageName}
+                    alt="商品图片"
+                    key={imageName}
+                    style={{ height: 150, width: 150, margin: 4 }}
+                  />
+                ))}
+              >
+                {attrValue.map((imageName) => (
+                  <img
+                    src={IMAGES_DIR + imageName}
+                    alt="商品图片"
+                    key={imageName}
+                    style={{ height: 70, width: 70, marginRight: 2 }}
+                  />
+                ))}
+              </Tooltip>
+            ),
+          };
+        } else {
+          return {
+            ...config,
+            width: attrName === "goodsDescription" ? 300 : "auto",
+            render: (attrValue) => (
+              <Tooltip placement="topLeft" title={attrValue}>
+                {attrValue}
+              </Tooltip>
+            ),
+          };
+        }
+      });
+      columns.push({
+        title: "操作",
+        key: "operation",
+        render: (text, record, index) => {
+          return (
+            <div>
+              <Button
+                onClick={() => {
+                  props.history.push(
+                    `/admin/goodsManage/goodsDetail/${record._id}`
+                  );
+                }}
+              >
+                编辑
+              </Button>
+            </div>
+          );
+        },
+      });
+    }
   }
 
   //发出删除商品请求
@@ -187,5 +190,5 @@ function GoodsList(props) {
 
 // export default GoodsList;
 export default connect((state) => ({
-  selectedCategoryChainNodes: state.selectedCategoryChainNodes,
+  ancestorCategories: state.ancestorCategories,
 }))(GoodsList);

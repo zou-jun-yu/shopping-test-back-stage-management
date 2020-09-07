@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 
 import { addOrUpdateCategoryApi, deleteCategoryApi } from "../api";
 import PicturesWall from "./PicturesWall ";
-import { clickSelectedCategoryChainNode } from "../redux/actions";
-// import { selectedCategoryChainNodesContext } from "./Reducer";
+import { clickOneOfAncestorCategories } from "../redux/actions";
+// import { AncestorCategoriesContext } from "./Reducer";
 
 const { Link } = Typography;
 
@@ -24,13 +24,13 @@ const CategoryManage = (props) => {
 
   // //当前祖先链，以及改变祖先链的dispatch方法
   // const {
-  //   selectedCategoryChainNodes,
-  //   selectedCategoryChainNodesDispatch,
-  // } = useContext(selectedCategoryChainNodesContext);
-  const { selectedCategoryChainNodes, clickSelectedCategoryChainNode } = props;
+  //   ancestorCategories,
+  //   ancestorCategoriesDispatch,
+  // } = useContext(AncestorCategoriesContext);
+  const { ancestorCategories, clickOneOfAncestorCategories } = props;
   //祖先链中的最后一个分类是当前分类
   const currentCategory =
-    selectedCategoryChainNodes[selectedCategoryChainNodes.length - 1];
+    ancestorCategories[ancestorCategories.length - 1];
   //当前分类的名字
   const [categoryName, setCategoryName] = useState(
     currentCategory.categoryName
@@ -120,11 +120,11 @@ const CategoryManage = (props) => {
       confirmLoading: false,
     });
     // //修改状态重新回到“一级分类列表”
-    // selectedCategoryChainNodesDispatch({
-    //   type: "clickSelectedCategoryChainNode",
-    //   selectedCategoryChainNode: selectedCategoryChainNodes[0],
+    // ancestorCategoriesDispatch({
+    //   type: "clickOneOfAncestorCategories",
+    //   category: ancestorCategories[0],
     // });
-    clickSelectedCategoryChainNode(selectedCategoryChainNodes[0]);
+    clickOneOfAncestorCategories(ancestorCategories[0]);
     // props.history.push("/admin/goodsManage/category");
   };
 
@@ -144,11 +144,11 @@ const CategoryManage = (props) => {
     <div style={{ fontSize: 16 }}>
       <Space size={50}>
         {/* 三级分类列表下不能再添加子分类了 */}
-        {selectedCategoryChainNodes.length < 4 ? (
+        {ancestorCategories.length < 4 ? (
           <Link onClick={() => showModal("添加分类")}>添加分类</Link>
         ) : null}
         {/* 不能删除和修改根分类节点 */}
-        {selectedCategoryChainNodes.length > 1 ? (
+        {ancestorCategories.length > 1 ? (
           <>
             <Link onClick={() => showModal("修改分类")}>修改分类</Link>
             <Link onClick={() => showModal("删除分类")}>删除分类</Link>
@@ -200,9 +200,9 @@ const CategoryManage = (props) => {
             <Row justify="space-around" align="middle" gutter={[10, 30]}>
               <Col span={4}>上级分类：</Col>
               <Col span={20}>
-                {selectedCategoryChainNodes.map(
-                  (selectedCategoryChainNode) =>
-                    " / " + selectedCategoryChainNode.categoryName
+                {ancestorCategories.map(
+                  (category) =>
+                    " / " + category.categoryName
                 )}
               </Col>
             </Row>
@@ -217,7 +217,7 @@ const CategoryManage = (props) => {
                 />
               </Col>
             </Row>
-            {selectedCategoryChainNodes.length === 3 ? (
+            {ancestorCategories.length === 3 ? (
               <Row gutter={[10, 30]}>
                 <Col offset={4}>
                   <PicturesWall
@@ -239,8 +239,8 @@ const CategoryManage = (props) => {
 export default withRouter(
   connect(
     (state) => ({
-      selectedCategoryChainNodes: state.selectedCategoryChainNodes,
+      ancestorCategories: state.ancestorCategories,
     }),
-    { clickSelectedCategoryChainNode }
+    { clickOneOfAncestorCategories }
   )(CategoryManage)
 );

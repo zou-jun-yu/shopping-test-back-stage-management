@@ -6,8 +6,8 @@ import { connect } from "react-redux";
 import Category from "./Category";
 import GoodsList from "./GoodsList";
 import GoodsDetail from "./GoodsDetail";
-import { clickSelectedCategoryChainNode } from "../../redux/actions";
-// import { selectedCategoryChainNodesContext } from "../../components/Reducer";
+import { clickOneOfAncestorCategories } from "../../redux/actions";
+// import { AncestorCategoriesContext } from "../../components/Reducer";
 import CategoryManage from "../../components/CategoryManage";
 
 const { Link } = Typography;
@@ -15,28 +15,28 @@ const { Link } = Typography;
 //商品和商品种类管理
 function GoodsManage(props) {
   // const {
-  //   selectedCategoryChainNodes,
-  //   selectedCategoryChainNodesDispatch,
-  // } = useContext(selectedCategoryChainNodesContext);
-  const { selectedCategoryChainNodes, clickSelectedCategoryChainNode } = props;
+  //   ancestorCategories,
+  //   ancestorCategoriesDispatch,
+  // } = useContext(AncestorCategoriesContext);
+  const { ancestorCategories, clickOneOfAncestorCategories } = props;
 
   return (
     <Card
       title={
         <Breadcrumb style={{ margin: "16px 0", fontSize: 16 }}>
-          {selectedCategoryChainNodes.map((selectedCategoryChainNode) => (
-            <Breadcrumb.Item key={selectedCategoryChainNode._id}>
+          {ancestorCategories.map((category) => (
+            <Breadcrumb.Item key={category._id}>
               <Link
                 onClick={() => {
-                  // selectedCategoryChainNodesDispatch({
-                  //   type: "clickSelectedCategoryChainNode",
-                  //   selectedCategoryChainNode,
+                  // ancestorCategoriesDispatch({
+                  //   type: "clickOneOfAncestorCategories",
+                  //   category,
                   // });
-                  clickSelectedCategoryChainNode(selectedCategoryChainNode);
+                  clickOneOfAncestorCategories(category);
                   props.history.push("/admin/goodsManage/category");
                 }}
               >
-                {selectedCategoryChainNode.categoryName}
+                {category.categoryName}
               </Link>
             </Breadcrumb.Item>
           ))}
@@ -73,8 +73,8 @@ function GoodsManage(props) {
 
 // export default GoodsManage;
 export default connect(
-  (state) => ({ selectedCategoryChainNodes: state.selectedCategoryChainNodes }),
+  (state) => ({ ancestorCategories: state.ancestorCategories }),
   {
-    clickSelectedCategoryChainNode,
+    clickOneOfAncestorCategories,
   }
 )(GoodsManage);
